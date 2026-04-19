@@ -19,7 +19,6 @@ from .text_preprocessing import (
     EquivalenceClassingFn,
     StopwordRemovalFn,
     TokenizerFn,
-    apply_preprocessing_pipeline,
     default_cs_equivalence_classing,
     default_cs_stopword_removal,
     default_cs_tokenizer,
@@ -78,6 +77,30 @@ def _collect_text_content(element: ET.Element | None) -> str:
 def _join_text_parts(parts: Iterable[str]) -> str:
     """Join field fragments with spaces while avoiding accidental word merges."""
     return " ".join(part for part in (_normalize_whitespace(p) for p in parts) if part)
+
+
+
+def _apply_optional_preprocessing_pipeline(
+    text: str,
+    *,
+    tokenizer_fn: TokenizerFn,
+    equivalence_classing_fn: EquivalenceClassingFn | None,
+    stopword_removal_fn: StopwordRemovalFn | None,
+) -> list[str]:
+    """Apply preprocessing while allowing optional later pipeline stages.
+
+    The tokenizer is always required. Equivalence classing and stopword removal
+    are only applied when the corresponding callable is provided.
+    """
+    tokens = tokenizer_fn(text)
+
+    if equivalence_classing_fn is not None:
+        tokens = equivalence_classing_fn(tokens)
+
+    if stopword_removal_fn is not None:
+        tokens = stopword_removal_fn(tokens)
+
+    return tokens
 
 
 # ---------------------------------------------------------------------------
@@ -233,17 +256,17 @@ def preprocess_extracted_document(
     document: ExtractedDocument,
     *,
     tokenizer_fn: TokenizerFn,
-    equivalence_classing_fn: EquivalenceClassingFn,
-    stopword_removal_fn: StopwordRemovalFn,
+    equivalence_classing_fn: EquivalenceClassingFn | None,
+    stopword_removal_fn: StopwordRemovalFn | None,
 ) -> ProcessedDocument:
     """Apply the configured preprocessing pipeline to title and body separately."""
-    title_tokens = apply_preprocessing_pipeline(
+    title_tokens = _apply_optional_preprocessing_pipeline(
         document.raw_title,
         tokenizer_fn=tokenizer_fn,
         equivalence_classing_fn=equivalence_classing_fn,
         stopword_removal_fn=stopword_removal_fn,
     )
-    text_tokens = apply_preprocessing_pipeline(
+    text_tokens = _apply_optional_preprocessing_pipeline(
         document.raw_text,
         tokenizer_fn=tokenizer_fn,
         equivalence_classing_fn=equivalence_classing_fn,
@@ -324,8 +347,8 @@ def _preprocess_documents(
     extracted_documents: Iterable[ExtractedDocument],
     *,
     tokenizer_fn: TokenizerFn,
-    equivalence_classing_fn: EquivalenceClassingFn,
-    stopword_removal_fn: StopwordRemovalFn,
+    equivalence_classing_fn: EquivalenceClassingFn | None,
+    stopword_removal_fn: StopwordRemovalFn | None,
 ) -> dict[str, ProcessedDocument]:
     processed_documents = (
         preprocess_extracted_document(
@@ -348,8 +371,8 @@ def preprocess_cs_documents(
     lst_path: str | Path,
     documents_dir: str | Path = DATA_DIR / "documents_cs",
     tokenizer_fn: TokenizerFn = default_cs_tokenizer,
-    equivalence_classing_fn: EquivalenceClassingFn = default_cs_equivalence_classing,
-    stopword_removal_fn: StopwordRemovalFn = default_cs_stopword_removal,
+    equivalence_classing_fn: EquivalenceClassingFn | None = default_cs_equivalence_classing,
+    stopword_removal_fn: StopwordRemovalFn | None = default_cs_stopword_removal,
     num_workers: int = 1,
 ) -> dict[str, ProcessedDocument]:
     """Load, parse, and preprocess Czech XML documents.
@@ -361,7 +384,9 @@ def preprocess_cs_documents(
     documents_dir:
         Directory containing the Czech XML files.
     tokenizer_fn, equivalence_classing_fn, stopword_removal_fn:
-        Modular preprocessing stage callables.
+        Modular preprocessing stage callables. The tokenizer is required;
+        equivalence classing and stopword removal may be set to ``None`` to skip
+        those stages.
     num_workers:
         Optional file-level parallelism. ``1`` keeps processing sequential.
     """
@@ -385,8 +410,8 @@ def preprocess_en_documents(
     lst_path: str | Path,
     documents_dir: str | Path = DATA_DIR / "documents_en",
     tokenizer_fn: TokenizerFn = default_en_tokenizer,
-    equivalence_classing_fn: EquivalenceClassingFn = default_en_equivalence_classing,
-    stopword_removal_fn: StopwordRemovalFn = default_en_stopword_removal,
+    equivalence_classing_fn: EquivalenceClassingFn | None = default_en_equivalence_classing,
+    stopword_removal_fn: StopwordRemovalFn | None = default_en_stopword_removal,
     num_workers: int = 1,
 ) -> dict[str, ProcessedDocument]:
     """Load, parse, and preprocess English XML documents.
@@ -398,7 +423,9 @@ def preprocess_en_documents(
     documents_dir:
         Directory containing the English XML files.
     tokenizer_fn, equivalence_classing_fn, stopword_removal_fn:
-        Modular preprocessing stage callables.
+        Modular preprocessing stage callables. The tokenizer is required;
+        equivalence classing and stopword removal may be set to ``None`` to skip
+        those stages.
     num_workers:
         Optional file-level parallelism. ``1`` keeps processing sequential.
     """

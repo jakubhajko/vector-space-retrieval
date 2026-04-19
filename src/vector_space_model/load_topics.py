@@ -37,7 +37,6 @@ from .text_preprocessing import (
     EquivalenceClassingFn,
     StopwordRemovalFn,
     TokenizerFn,
-    apply_preprocessing_pipeline,
     default_cs_equivalence_classing,
     default_cs_stopword_removal,
     default_cs_tokenizer,
@@ -94,6 +93,30 @@ def _collect_text_content(element: ET.Element | None) -> str:
 def _join_text_parts(parts: Iterable[str]) -> str:
     """Join non-empty text fragments with spaces."""
     return " ".join(part for part in (_normalize_whitespace(p) for p in parts) if part)
+
+
+
+def _apply_optional_preprocessing_pipeline(
+    text: str,
+    *,
+    tokenizer_fn: TokenizerFn,
+    equivalence_classing_fn: EquivalenceClassingFn | None,
+    stopword_removal_fn: StopwordRemovalFn | None,
+) -> list[str]:
+    """Apply preprocessing while allowing optional later pipeline stages.
+
+    The tokenizer is always required. Equivalence classing and stopword removal
+    are only applied when the corresponding callable is provided.
+    """
+    tokens = tokenizer_fn(text)
+
+    if equivalence_classing_fn is not None:
+        tokens = equivalence_classing_fn(tokens)
+
+    if stopword_removal_fn is not None:
+        tokens = stopword_removal_fn(tokens)
+
+    return tokens
 
 
 def _resolve_topic_language(top_element: ET.Element, default_language: str | None) -> str:
@@ -194,12 +217,12 @@ def preprocess_extracted_topic(
     *,
     query_construction: QueryConstructionMode,
     tokenizer_fn: TokenizerFn,
-    equivalence_classing_fn: EquivalenceClassingFn,
-    stopword_removal_fn: StopwordRemovalFn,
+    equivalence_classing_fn: EquivalenceClassingFn | None,
+    stopword_removal_fn: StopwordRemovalFn | None,
 ) -> ProcessedTopic:
     """Construct and preprocess a topic into a single tokenized query representation."""
     merged_query_text = build_topic_query_text(topic, query_construction=query_construction)
-    query_tokens = apply_preprocessing_pipeline(
+    query_tokens = _apply_optional_preprocessing_pipeline(
         merged_query_text,
         tokenizer_fn=tokenizer_fn,
         equivalence_classing_fn=equivalence_classing_fn,
@@ -239,8 +262,8 @@ def preprocess_topics(
     *,
     query_construction: QueryConstructionMode,
     tokenizer_fn: TokenizerFn,
-    equivalence_classing_fn: EquivalenceClassingFn,
-    stopword_removal_fn: StopwordRemovalFn,
+    equivalence_classing_fn: EquivalenceClassingFn | None,
+    stopword_removal_fn: StopwordRemovalFn | None,
     default_language: str | None = None,
 ) -> dict[str, ProcessedTopic]:
     """Parse and preprocess topics from one XML file."""
@@ -263,8 +286,8 @@ def preprocess_en_topics(
     *,
     query_construction: QueryConstructionMode = "title",
     tokenizer_fn: TokenizerFn = default_en_tokenizer,
-    equivalence_classing_fn: EquivalenceClassingFn = default_en_equivalence_classing,
-    stopword_removal_fn: StopwordRemovalFn = default_en_stopword_removal,
+    equivalence_classing_fn: EquivalenceClassingFn | None = default_en_equivalence_classing,
+    stopword_removal_fn: StopwordRemovalFn | None = default_en_stopword_removal,
 ) -> dict[str, ProcessedTopic]:
     """Parse and preprocess English topics."""
     return preprocess_topics(
@@ -282,8 +305,8 @@ def preprocess_cs_topics(
     *,
     query_construction: QueryConstructionMode = "title",
     tokenizer_fn: TokenizerFn = default_cs_tokenizer,
-    equivalence_classing_fn: EquivalenceClassingFn = default_cs_equivalence_classing,
-    stopword_removal_fn: StopwordRemovalFn = default_cs_stopword_removal,
+    equivalence_classing_fn: EquivalenceClassingFn | None = default_cs_equivalence_classing,
+    stopword_removal_fn: StopwordRemovalFn | None = default_cs_stopword_removal,
 ) -> dict[str, ProcessedTopic]:
     """Parse and preprocess Czech topics."""
     return preprocess_topics(
