@@ -14,8 +14,8 @@ from pathlib import Path
 from typing import Callable, Iterable, Iterator, Sequence
 import xml.etree.ElementTree as ET
 
-from config import DATA_DIR
-from text_preprocessing import (
+from .config import DATA_DIR
+from .text_preprocessing import (
     EquivalenceClassingFn,
     StopwordRemovalFn,
     TokenizerFn,

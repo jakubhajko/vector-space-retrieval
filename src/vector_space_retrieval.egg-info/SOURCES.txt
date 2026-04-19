@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+src/vector_space_model/__init__.py
+src/vector_space_model/config.py
+src/vector_space_model/index.py
+src/vector_space_model/load_documents.py
+src/vector_space_model/load_topics.py
+src/vector_space_model/results.py
+src/vector_space_model/retrieval.py
+src/vector_space_model/run.py
+src/vector_space_model/scoring.py
+src/vector_space_model/text_preprocessing.py
+src/vector_space_retrieval.egg-info/PKG-INFO
+src/vector_space_retrieval.egg-info/SOURCES.txt
+src/vector_space_retrieval.egg-info/dependency_links.txt
+src/vector_space_retrieval.egg-info/top_level.txt
