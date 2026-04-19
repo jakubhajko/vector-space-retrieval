@@ -14,6 +14,7 @@ Document frequency weighting:
 - probabilistic_idf
 
 Normalization:
+- none
 - cosine
 - pivoted
 
@@ -81,7 +82,7 @@ from typing import Mapping, Sequence, Literal
 
 TfWeighting = Literal["natural", "logarithm"]
 DfWeighting = Literal["none", "idf", "probabilistic_idf"]
-Normalization = Literal["cosine", "pivoted"]
+Normalization = Literal["none", "cosine", "pivoted"]
 Similarity = Literal["cosine", "bm25"]
 QueryExpansionMode = Literal["none", "thesaurus_based"]
 

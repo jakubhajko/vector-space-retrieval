@@ -7,7 +7,7 @@ from .load_topics import preprocess_cs_topics, preprocess_en_topics
 from .results import write_trec_results, flatten_results_by_topic
 from .retrieval import RetrievalResult, RetrievalSystem
 from .scoring import BM25Parameters, PivotedNormalizationParameters, ScoringConfig
-from .text_preprocessing import PreprocessingPipeline
+from .text_preprocessing import PreprocessingPipeline, regex_word_tokenizer
 
 __all__ = [
     "BM25Parameters",

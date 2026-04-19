@@ -164,6 +164,9 @@ class RetrievalSystem:
                 if denominator > 0.0:
                     normalized_scores[doc_id] = score / denominator
             return normalized_scores
+        
+        if scoring.normalization == "none":
+            return dict(scores)
 
         raise ValueError(f"Unsupported normalization mode: {scoring.normalization}")
 
