@@ -1,0 +1,943 @@
+BASELINE RESULTS(RUN 0)
+
+=======================================================
+EXECUTING EXPERIMENT: run-0_train_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_word_tokenizer
+Equivalence Classing: None
+Stopword Removal:     None
+TF Weighting:         natural
+DF Weighting:         none
+Normalization:        cosine
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-0_train_en
+num_q                 	all	25
+num_ret               	all	18373
+num_rel               	all	782
+num_rel_ret           	all	276
+map                   	all	0.0412
+gm_map                	all	0.0072
+Rprec                 	all	0.0526
+bpref                 	all	0.0627
+recip_rank            	all	0.1743
+iprec_at_recall_0.00  	all	0.1953
+iprec_at_recall_0.10  	all	0.0967
+iprec_at_recall_0.20  	all	0.0736
+iprec_at_recall_0.30  	all	0.0565
+iprec_at_recall_0.40  	all	0.0453
+iprec_at_recall_0.50  	all	0.0316
+iprec_at_recall_0.60  	all	0.0261
+iprec_at_recall_0.70  	all	0.0215
+iprec_at_recall_0.80  	all	0.0187
+iprec_at_recall_0.90  	all	0.0142
+iprec_at_recall_1.00  	all	0.0053
+P_5                   	all	0.0720
+P_10                  	all	0.0760
+P_15                  	all	0.0720
+P_20                  	all	0.0620
+P_30                  	all	0.0507
+P_100                 	all	0.0372
+P_200                 	all	0.0298
+P_500                 	all	0.0173
+P_1000                	all	0.0110
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-0_train_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_word_tokenizer
+Equivalence Classing: None
+Stopword Removal:     None
+TF Weighting:         natural
+DF Weighting:         none
+Normalization:        cosine
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-0_train_cs
+num_q                 	all	25
+num_ret               	all	17486
+num_rel               	all	382
+num_rel_ret           	all	106
+map                   	all	0.0592
+gm_map                	all	0.0027
+Rprec                 	all	0.0772
+bpref                 	all	0.0801
+recip_rank            	all	0.1622
+iprec_at_recall_0.00  	all	0.1734
+iprec_at_recall_0.10  	all	0.1553
+iprec_at_recall_0.20  	all	0.1194
+iprec_at_recall_0.30  	all	0.0887
+iprec_at_recall_0.40  	all	0.0591
+iprec_at_recall_0.50  	all	0.0519
+iprec_at_recall_0.60  	all	0.0316
+iprec_at_recall_0.70  	all	0.0243
+iprec_at_recall_0.80  	all	0.0051
+iprec_at_recall_0.90  	all	0.0033
+iprec_at_recall_1.00  	all	0.0022
+P_5                   	all	0.0880
+P_10                  	all	0.0840
+P_15                  	all	0.0667
+P_20                  	all	0.0580
+P_30                  	all	0.0467
+P_100                 	all	0.0184
+P_200                 	all	0.0128
+P_500                 	all	0.0076
+P_1000                	all	0.0042
+
+
+
+
+
+
+IMPROVED RESULTS(RUN 1)
+
+EN
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_1_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         natural
+DF Weighting:         probabilistic_idf
+Normalization:        none
+Similarity:           bm25
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_1_en
+num_q                 	all	25
+num_ret               	all	23234
+num_rel               	all	782
+num_rel_ret           	all	542
+map                   	all	0.2950
+gm_map                	all	0.1957
+Rprec                 	all	0.3143
+bpref                 	all	0.2746
+recip_rank            	all	0.6356
+iprec_at_recall_0.00  	all	0.6961
+iprec_at_recall_0.10  	all	0.5502
+iprec_at_recall_0.20  	all	0.4833
+iprec_at_recall_0.30  	all	0.4179
+iprec_at_recall_0.40  	all	0.3823
+iprec_at_recall_0.50  	all	0.3061
+iprec_at_recall_0.60  	all	0.2282
+iprec_at_recall_0.70  	all	0.1915
+iprec_at_recall_0.80  	all	0.1283
+iprec_at_recall_0.90  	all	0.0868
+iprec_at_recall_1.00  	all	0.0583
+P_5                   	all	0.4160
+P_10                  	all	0.3680
+P_15                  	all	0.3440
+P_20                  	all	0.3180
+P_30                  	all	0.2707
+P_100                 	all	0.1460
+P_200                 	all	0.0854
+P_500                 	all	0.0392
+P_1000                	all	0.0217
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_2_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         natural
+DF Weighting:         idf
+Normalization:        none
+Similarity:           bm25
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_2_en
+num_q                 	all	25
+num_ret               	all	23234
+num_rel               	all	782
+num_rel_ret           	all	542
+map                   	all	0.2950
+gm_map                	all	0.1957
+Rprec                 	all	0.3143
+bpref                 	all	0.2746
+recip_rank            	all	0.6356
+iprec_at_recall_0.00  	all	0.6961
+iprec_at_recall_0.10  	all	0.5502
+iprec_at_recall_0.20  	all	0.4833
+iprec_at_recall_0.30  	all	0.4179
+iprec_at_recall_0.40  	all	0.3823
+iprec_at_recall_0.50  	all	0.3061
+iprec_at_recall_0.60  	all	0.2282
+iprec_at_recall_0.70  	all	0.1915
+iprec_at_recall_0.80  	all	0.1283
+iprec_at_recall_0.90  	all	0.0868
+iprec_at_recall_1.00  	all	0.0583
+P_5                   	all	0.4160
+P_10                  	all	0.3680
+P_15                  	all	0.3440
+P_20                  	all	0.3180
+P_30                  	all	0.2707
+P_100                 	all	0.1460
+P_200                 	all	0.0854
+P_500                 	all	0.0392
+P_1000                	all	0.0217
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_3_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_3_en
+num_q                 	all	25
+num_ret               	all	23234
+num_rel               	all	782
+num_rel_ret           	all	543
+map                   	all	0.3020
+gm_map                	all	0.1990
+Rprec                 	all	0.3279
+bpref                 	all	0.2806
+recip_rank            	all	0.6051
+iprec_at_recall_0.00  	all	0.6623
+iprec_at_recall_0.10  	all	0.5395
+iprec_at_recall_0.20  	all	0.4722
+iprec_at_recall_0.30  	all	0.4273
+iprec_at_recall_0.40  	all	0.3734
+iprec_at_recall_0.50  	all	0.2952
+iprec_at_recall_0.60  	all	0.2550
+iprec_at_recall_0.70  	all	0.2062
+iprec_at_recall_0.80  	all	0.1539
+iprec_at_recall_0.90  	all	0.1159
+iprec_at_recall_1.00  	all	0.0720
+P_5                   	all	0.4080
+P_10                  	all	0.3560
+P_15                  	all	0.3307
+P_20                  	all	0.3220
+P_30                  	all	0.2787
+P_100                 	all	0.1504
+P_200                 	all	0.0894
+P_500                 	all	0.0406
+P_1000                	all	0.0217
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_4_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         probabilistic_idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_4_en
+num_q                 	all	25
+num_ret               	all	23234
+num_rel               	all	782
+num_rel_ret           	all	541
+map                   	all	0.3014
+gm_map                	all	0.1983
+Rprec                 	all	0.3274
+bpref                 	all	0.2800
+recip_rank            	all	0.6021
+iprec_at_recall_0.00  	all	0.6627
+iprec_at_recall_0.10  	all	0.5398
+iprec_at_recall_0.20  	all	0.4725
+iprec_at_recall_0.30  	all	0.4258
+iprec_at_recall_0.40  	all	0.3726
+iprec_at_recall_0.50  	all	0.2945
+iprec_at_recall_0.60  	all	0.2538
+iprec_at_recall_0.70  	all	0.2059
+iprec_at_recall_0.80  	all	0.1534
+iprec_at_recall_0.90  	all	0.1142
+iprec_at_recall_1.00  	all	0.0732
+P_5                   	all	0.4000
+P_10                  	all	0.3560
+P_15                  	all	0.3280
+P_20                  	all	0.3220
+P_30                  	all	0.2787
+P_100                 	all	0.1504
+P_200                 	all	0.0892
+P_500                 	all	0.0406
+P_1000                	all	0.0216
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_5_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        cosine
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_5_en
+num_q                 	all	25
+num_ret               	all	23234
+num_rel               	all	782
+num_rel_ret           	all	523
+map                   	all	0.1524
+gm_map                	all	0.0935
+Rprec                 	all	0.1694
+bpref                 	all	0.1413
+recip_rank            	all	0.3203
+iprec_at_recall_0.00  	all	0.3930
+iprec_at_recall_0.10  	all	0.3001
+iprec_at_recall_0.20  	all	0.2443
+iprec_at_recall_0.30  	all	0.2137
+iprec_at_recall_0.40  	all	0.1790
+iprec_at_recall_0.50  	all	0.1481
+iprec_at_recall_0.60  	all	0.1331
+iprec_at_recall_0.70  	all	0.1027
+iprec_at_recall_0.80  	all	0.0764
+iprec_at_recall_0.90  	all	0.0600
+iprec_at_recall_1.00  	all	0.0358
+P_5                   	all	0.2000
+P_10                  	all	0.1600
+P_15                  	all	0.1760
+P_20                  	all	0.1740
+P_30                  	all	0.1613
+P_100                 	all	0.1116
+P_200                 	all	0.0734
+P_500                 	all	0.0379
+P_1000                	all	0.0209
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_6_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         natural
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_6_en
+num_q                 	all	25
+num_ret               	all	23234
+num_rel               	all	782
+num_rel_ret           	all	564
+map                   	all	0.2339
+gm_map                	all	0.1420
+Rprec                 	all	0.2501
+bpref                 	all	0.2294
+recip_rank            	all	0.4637
+iprec_at_recall_0.00  	all	0.5266
+iprec_at_recall_0.10  	all	0.4321
+iprec_at_recall_0.20  	all	0.3538
+iprec_at_recall_0.30  	all	0.3180
+iprec_at_recall_0.40  	all	0.2411
+iprec_at_recall_0.50  	all	0.2161
+iprec_at_recall_0.60  	all	0.1932
+iprec_at_recall_0.70  	all	0.1648
+iprec_at_recall_0.80  	all	0.1339
+iprec_at_recall_0.90  	all	0.0995
+iprec_at_recall_1.00  	all	0.0667
+P_5                   	all	0.3040
+P_10                  	all	0.2600
+P_15                  	all	0.2533
+P_20                  	all	0.2320
+P_30                  	all	0.2160
+P_100                 	all	0.1260
+P_200                 	all	0.0798
+P_500                 	all	0.0410
+P_1000                	all	0.0226
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CS
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_1_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         natural
+DF Weighting:         probabilistic_idf
+Normalization:        none
+Similarity:           bm25
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_1_cs
+num_q                 	all	25
+num_ret               	all	20083
+num_rel               	all	382
+num_rel_ret           	all	232
+map                   	all	0.2408
+gm_map                	all	0.0929
+Rprec                 	all	0.2666
+bpref                 	all	0.2316
+recip_rank            	all	0.5787
+iprec_at_recall_0.00  	all	0.6004
+iprec_at_recall_0.10  	all	0.5222
+iprec_at_recall_0.20  	all	0.4071
+iprec_at_recall_0.30  	all	0.3407
+iprec_at_recall_0.40  	all	0.2746
+iprec_at_recall_0.50  	all	0.2551
+iprec_at_recall_0.60  	all	0.1496
+iprec_at_recall_0.70  	all	0.1188
+iprec_at_recall_0.80  	all	0.0744
+iprec_at_recall_0.90  	all	0.0373
+iprec_at_recall_1.00  	all	0.0278
+P_5                   	all	0.2960
+P_10                  	all	0.2480
+P_15                  	all	0.2187
+P_20                  	all	0.1840
+P_30                  	all	0.1387
+P_100                 	all	0.0584
+P_200                 	all	0.0348
+P_500                 	all	0.0170
+P_1000                	all	0.0093
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_2_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         natural
+DF Weighting:         idf
+Normalization:        none
+Similarity:           bm25
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_2_cs
+num_q                 	all	25
+num_ret               	all	20083
+num_rel               	all	382
+num_rel_ret           	all	232
+map                   	all	0.2408
+gm_map                	all	0.0929
+Rprec                 	all	0.2666
+bpref                 	all	0.2316
+recip_rank            	all	0.5787
+iprec_at_recall_0.00  	all	0.6004
+iprec_at_recall_0.10  	all	0.5222
+iprec_at_recall_0.20  	all	0.4071
+iprec_at_recall_0.30  	all	0.3407
+iprec_at_recall_0.40  	all	0.2746
+iprec_at_recall_0.50  	all	0.2551
+iprec_at_recall_0.60  	all	0.1496
+iprec_at_recall_0.70  	all	0.1188
+iprec_at_recall_0.80  	all	0.0744
+iprec_at_recall_0.90  	all	0.0373
+iprec_at_recall_1.00  	all	0.0278
+P_5                   	all	0.2960
+P_10                  	all	0.2480
+P_15                  	all	0.2187
+P_20                  	all	0.1840
+P_30                  	all	0.1387
+P_100                 	all	0.0584
+P_200                 	all	0.0348
+P_500                 	all	0.0170
+P_1000                	all	0.0093
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_3_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_3_cs
+num_q                 	all	25
+num_ret               	all	20083
+num_rel               	all	382
+num_rel_ret           	all	229
+map                   	all	0.2579
+gm_map                	all	0.1124
+Rprec                 	all	0.2730
+bpref                 	all	0.2430
+recip_rank            	all	0.6085
+iprec_at_recall_0.00  	all	0.6355
+iprec_at_recall_0.10  	all	0.5502
+iprec_at_recall_0.20  	all	0.4522
+iprec_at_recall_0.30  	all	0.3579
+iprec_at_recall_0.40  	all	0.2675
+iprec_at_recall_0.50  	all	0.2490
+iprec_at_recall_0.60  	all	0.1708
+iprec_at_recall_0.70  	all	0.1450
+iprec_at_recall_0.80  	all	0.1090
+iprec_at_recall_0.90  	all	0.0573
+iprec_at_recall_1.00  	all	0.0476
+P_5                   	all	0.3280
+P_10                  	all	0.2760
+P_15                  	all	0.2347
+P_20                  	all	0.1960
+P_30                  	all	0.1493
+P_100                 	all	0.0608
+P_200                 	all	0.0356
+P_500                 	all	0.0168
+P_1000                	all	0.0092
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_4_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         probabilistic_idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_4_cs
+num_q                 	all	25
+num_ret               	all	20083
+num_rel               	all	382
+num_rel_ret           	all	229
+map                   	all	0.2578
+gm_map                	all	0.1123
+Rprec                 	all	0.2730
+bpref                 	all	0.2430
+recip_rank            	all	0.6085
+iprec_at_recall_0.00  	all	0.6356
+iprec_at_recall_0.10  	all	0.5504
+iprec_at_recall_0.20  	all	0.4524
+iprec_at_recall_0.30  	all	0.3580
+iprec_at_recall_0.40  	all	0.2676
+iprec_at_recall_0.50  	all	0.2491
+iprec_at_recall_0.60  	all	0.1709
+iprec_at_recall_0.70  	all	0.1449
+iprec_at_recall_0.80  	all	0.1079
+iprec_at_recall_0.90  	all	0.0561
+iprec_at_recall_1.00  	all	0.0464
+P_5                   	all	0.3280
+P_10                  	all	0.2760
+P_15                  	all	0.2320
+P_20                  	all	0.1960
+P_30                  	all	0.1480
+P_100                 	all	0.0608
+P_200                 	all	0.0358
+P_500                 	all	0.0168
+P_1000                	all	0.0092
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_5_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        cosine
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_5_cs
+num_q                 	all	25
+num_ret               	all	20083
+num_rel               	all	382
+num_rel_ret           	all	226
+map                   	all	0.1511
+gm_map                	all	0.0517
+Rprec                 	all	0.1747
+bpref                 	all	0.1523
+recip_rank            	all	0.3252
+iprec_at_recall_0.00  	all	0.3865
+iprec_at_recall_0.10  	all	0.3370
+iprec_at_recall_0.20  	all	0.2599
+iprec_at_recall_0.30  	all	0.2129
+iprec_at_recall_0.40  	all	0.1540
+iprec_at_recall_0.50  	all	0.1384
+iprec_at_recall_0.60  	all	0.1105
+iprec_at_recall_0.70  	all	0.0887
+iprec_at_recall_0.80  	all	0.0735
+iprec_at_recall_0.90  	all	0.0348
+iprec_at_recall_1.00  	all	0.0261
+P_5                   	all	0.1760
+P_10                  	all	0.1640
+P_15                  	all	0.1440
+P_20                  	all	0.1320
+P_30                  	all	0.1107
+P_100                 	all	0.0544
+P_200                 	all	0.0336
+P_500                 	all	0.0166
+P_1000                	all	0.0090
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-1_train_6_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         natural
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-1_train_6_cs
+num_q                 	all	25
+num_ret               	all	20083
+num_rel               	all	382
+num_rel_ret           	all	229
+map                   	all	0.1744
+gm_map                	all	0.0689
+Rprec                 	all	0.2107
+bpref                 	all	0.1727
+recip_rank            	all	0.3993
+iprec_at_recall_0.00  	all	0.4289
+iprec_at_recall_0.10  	all	0.4002
+iprec_at_recall_0.20  	all	0.3178
+iprec_at_recall_0.30  	all	0.2673
+iprec_at_recall_0.40  	all	0.1826
+iprec_at_recall_0.50  	all	0.1545
+iprec_at_recall_0.60  	all	0.1147
+iprec_at_recall_0.70  	all	0.0829
+iprec_at_recall_0.80  	all	0.0653
+iprec_at_recall_0.90  	all	0.0195
+iprec_at_recall_1.00  	all	0.0119
+P_5                   	all	0.2160
+P_10                  	all	0.2000
+P_15                  	all	0.1787
+P_20                  	all	0.1500
+P_30                  	all	0.1213
+P_100                 	all	0.0544
+P_200                 	all	0.0348
+P_500                 	all	0.0169
+P_1000                	all	0.0092
+
+
+
+
+
+
+
+EVEN MORE IMPROVED RESULTS(RUN 2)
+
+EN
+
+=======================================================
+EXECUTING EXPERIMENT: run-2_train_1_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title_desc
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-2_train_1_en
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	782
+num_rel_ret           	all	604
+map                   	all	0.3573
+gm_map                	all	0.2450
+Rprec                 	all	0.3583
+bpref                 	all	0.3328
+recip_rank            	all	0.7200
+iprec_at_recall_0.00  	all	0.7660
+iprec_at_recall_0.10  	all	0.6616
+iprec_at_recall_0.20  	all	0.5633
+iprec_at_recall_0.30  	all	0.4686
+iprec_at_recall_0.40  	all	0.4175
+iprec_at_recall_0.50  	all	0.3643
+iprec_at_recall_0.60  	all	0.2744
+iprec_at_recall_0.70  	all	0.2452
+iprec_at_recall_0.80  	all	0.1939
+iprec_at_recall_0.90  	all	0.1342
+iprec_at_recall_1.00  	all	0.0960
+P_5                   	all	0.4960
+P_10                  	all	0.4440
+P_15                  	all	0.4080
+P_20                  	all	0.3640
+P_30                  	all	0.3213
+P_100                 	all	0.1676
+P_200                 	all	0.0972
+P_500                 	all	0.0449
+P_1000                	all	0.0242
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-2_train_2_en
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title_desc_narr
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: english_casefold_and_stem
+Stopword Removal:     english_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-2_train_2_en
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	782
+num_rel_ret           	all	624
+map                   	all	0.3693
+gm_map                	all	0.2517
+Rprec                 	all	0.3397
+bpref                 	all	0.3337
+recip_rank            	all	0.6837
+iprec_at_recall_0.00  	all	0.7251
+iprec_at_recall_0.10  	all	0.6493
+iprec_at_recall_0.20  	all	0.5660
+iprec_at_recall_0.30  	all	0.4651
+iprec_at_recall_0.40  	all	0.4131
+iprec_at_recall_0.50  	all	0.3572
+iprec_at_recall_0.60  	all	0.2922
+iprec_at_recall_0.70  	all	0.2698
+iprec_at_recall_0.80  	all	0.2413
+iprec_at_recall_0.90  	all	0.1696
+iprec_at_recall_1.00  	all	0.1165
+P_5                   	all	0.5280
+P_10                  	all	0.4320
+P_15                  	all	0.3973
+P_20                  	all	0.3660
+P_30                  	all	0.3227
+P_100                 	all	0.1688
+P_200                 	all	0.0990
+P_500                 	all	0.0458
+P_1000                	all	0.0250
+
+CS
+
+=======================================================
+EXECUTING EXPERIMENT: run-2_train_1_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title_desc
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-2_train_1_cs
+num_q                 	all	25
+num_ret               	all	24709
+num_rel               	all	382
+num_rel_ret           	all	298
+map                   	all	0.2923
+gm_map                	all	0.1807
+Rprec                 	all	0.2743
+bpref                 	all	0.2601
+recip_rank            	all	0.6951
+iprec_at_recall_0.00  	all	0.7412
+iprec_at_recall_0.10  	all	0.6344
+iprec_at_recall_0.20  	all	0.4906
+iprec_at_recall_0.30  	all	0.3958
+iprec_at_recall_0.40  	all	0.3317
+iprec_at_recall_0.50  	all	0.2832
+iprec_at_recall_0.60  	all	0.2049
+iprec_at_recall_0.70  	all	0.1630
+iprec_at_recall_0.80  	all	0.1270
+iprec_at_recall_0.90  	all	0.0527
+iprec_at_recall_1.00  	all	0.0386
+P_5                   	all	0.3760
+P_10                  	all	0.3080
+P_15                  	all	0.2613
+P_20                  	all	0.2300
+P_30                  	all	0.1853
+P_100                 	all	0.0780
+P_200                 	all	0.0462
+P_500                 	all	0.0214
+P_1000                	all	0.0119
+
+
+
+
+
+=======================================================
+EXECUTING EXPERIMENT: run-2_train_2_cs
+=======================================================
+CONFIGURATION:
+
+Query Construction:   title_desc_narr
+Tokenizer:            regex_tokenizer_with_connectors
+Equivalence Classing: czech_casefold_and_stem
+Stopword Removal:     czech_stopword_removal
+TF Weighting:         logarithm
+DF Weighting:         idf
+Normalization:        pivoted
+Similarity:           cosine
+Query Expansion:      none
+Top K Docs:           1000
+=======================================================
+
+runid                 	all	run-2_train_2_cs
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	382
+num_rel_ret           	all	325
+map                   	all	0.2771
+gm_map                	all	0.1731
+Rprec                 	all	0.2944
+bpref                 	all	0.2607
+recip_rank            	all	0.6649
+iprec_at_recall_0.00  	all	0.6978
+iprec_at_recall_0.10  	all	0.5445
+iprec_at_recall_0.20  	all	0.4471
+iprec_at_recall_0.30  	all	0.3682
+iprec_at_recall_0.40  	all	0.3139
+iprec_at_recall_0.50  	all	0.2968
+iprec_at_recall_0.60  	all	0.2080
+iprec_at_recall_0.70  	all	0.1648
+iprec_at_recall_0.80  	all	0.1163
+iprec_at_recall_0.90  	all	0.0513
+iprec_at_recall_1.00  	all	0.0363
+P_5                   	all	0.3760
+P_10                  	all	0.3160
+P_15                  	all	0.2640
+P_20                  	all	0.2300
+P_30                  	all	0.1840
+P_100                 	all	0.0880
+P_200                 	all	0.0506
+P_500                 	all	0.0238
+P_1000                	all	0.0130

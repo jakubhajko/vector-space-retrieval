@@ -77,7 +77,7 @@ RUN_0_CONFIG = ExperimentConfig(
 
 RUN_1_CONFIG = ExperimentConfig(
     # Stronger title-only run
-    query_construction="title_desc",
+    query_construction="title",
     tokenizer_fn=regex_tokenizer_with_connectors,
     equivalence_classing_fn={
         "en": english_casefold_and_stem,
@@ -90,8 +90,29 @@ RUN_1_CONFIG = ExperimentConfig(
     scoring=ScoringConfig(
         tf_weighting="logarithm",
         df_weighting="idf",
-        normalization="cosine",
-        similarity="bm25",
+        normalization="pivoted",
+        similarity="cosine",
+        query_expansion="none",
+    )
+)
+
+RUN_2_CONFIG = ExperimentConfig(
+    # Strongest no constraints run
+    query_construction="title_desc_narr",
+    tokenizer_fn=regex_tokenizer_with_connectors,
+    equivalence_classing_fn={
+        "en": english_casefold_and_stem,
+        "cs": czech_casefold_and_stem
+    },
+    stopword_removal_fn={
+        "en": english_stopword_removal,
+        "cs": czech_stopword_removal
+    },
+    scoring=ScoringConfig(
+        tf_weighting="logarithm",
+        df_weighting="idf",
+        normalization="pivoted",
+        similarity="cosine",
         query_expansion="none",
     )
 )
@@ -100,7 +121,7 @@ RUN_1_CONFIG = ExperimentConfig(
 CONFIGS = {
     "run-0": RUN_0_CONFIG,
     "run-1": RUN_1_CONFIG,
-    # "run-2": RUN_2_CONFIG,  # Add your unconstrained run here later!
+    "run-2": RUN_2_CONFIG,  
 }
 
 
@@ -112,7 +133,8 @@ def print_active_configuration(run_id: str, config: ExperimentConfig):
     """Prints the configuration clearly for easy inclusion in your report."""
     print(f"\n{'='*55}")
     print(f"EXECUTING EXPERIMENT: {run_id}")
-    print(f"{'='*50}")
+    print(f"{'='*55}")
+    print(f"CONFIGURATION:\n")
     print(f"Query Construction:   {config.query_construction}")
     print(f"Tokenizer:            {config.tokenizer_fn.__name__ if config.tokenizer_fn else 'None'}")
     print(f"Equivalence Classing: {config.equivalence_classing_fn[run_id[-2:]].__name__ if config.equivalence_classing_fn else 'None'}")
@@ -232,7 +254,7 @@ if __name__ == "__main__":
     # python run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_cs -o results/run-1_train_cs.res
     # python run.py -q data/topics-test_en.xml -d data/documents_en.lst -r run-1_test_en -o results/run-1_test_en.res
     # python run.py -q data/topics-test_cs.xml -d data/documents_cs.lst -r run-1_test_cs -o results/run-1_test_cs.res
-    
+
 
     # For uv users:
     # Run 0 
@@ -246,3 +268,24 @@ if __name__ == "__main__":
     # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_cs -o results/run-1_train_cs.res
     # uv run run.py -q data/topics-test_en.xml -d data/documents_en.lst -r run-1_test_en -o results/run-1_test_en.res
     # uv run run.py -q data/topics-test_cs.xml -d data/documents_cs.lst -r run-1_test_cs -o results/run-1_test_cs.res
+
+
+    #EN
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_1_en -o experiments/en/run-1_train_1_en.res
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_2_en -o experiments/en/run-1_train_2_en.res
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_3_en -o experiments/en/run-1_train_3_en.res
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_4_en -o experiments/en/run-1_train_4_en.res
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_5_en -o experiments/en/run-1_train_5_en.res
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_6_en -o experiments/en/run-1_train_6_en.res
+
+    #CS
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_1_cs -o experiments/cs/run-1_train_1_cs.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_2_cs -o experiments/cs/run-1_train_2_cs.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_3_cs -o experiments/cs/run-1_train_3_cs.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_4_cs -o experiments/cs/run-1_train_4_cs.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_5_cs -o experiments/cs/run-1_train_5_cs.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_6_cs -o experiments/cs/run-1_train_6_cs.res
+
+    # Run 2
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-2_train_en -o experiments/en/run-2_train_en.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-2_train_cs -o experiments/cs/run-2_train_cs.res
