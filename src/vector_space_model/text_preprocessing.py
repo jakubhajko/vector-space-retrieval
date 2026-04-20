@@ -509,45 +509,6 @@ def filter_tokens_by_min_length(tokens: Sequence[str], min_length: int = 2) -> T
     return [token for token in tokens if len(token) >= min_length]
 
 
-
-def build_frequency_stopword_set(
-    documents: Sequence[Sequence[str]],
-    *,
-    max_document_frequency_ratio: float = 0.8,
-    min_collection_frequency: int = 1,
-) -> set[str]:
-    """Build a frequency-based stopword set from a tokenized corpus.
-
-    Parameters
-    ----------
-    documents:
-        Iterable of token sequences, typically one sequence per document.
-    max_document_frequency_ratio:
-        Tokens occurring in more than this fraction of documents are selected.
-    min_collection_frequency:
-        Ignore very rare tokens when deriving the stopword set.
-    """
-    if not documents:
-        return set()
-
-    doc_freq: Counter[str] = Counter()
-    collection_freq: Counter[str] = Counter()
-
-    for doc_tokens in documents:
-        token_list = list(doc_tokens)
-        collection_freq.update(token_list)
-        doc_freq.update(set(token_list))
-
-    num_documents = len(documents)
-    result: set[str] = set()
-    for token, df in doc_freq.items():
-        if collection_freq[token] < min_collection_frequency:
-            continue
-        if df / num_documents > max_document_frequency_ratio:
-            result.add(token)
-    return result
-
-
 # Friendly aliases for defaults.
 default_en_stopword_removal: StopwordRemovalFn = english_stopword_removal
 default_cs_stopword_removal: StopwordRemovalFn = czech_stopword_removal

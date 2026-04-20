@@ -7,7 +7,7 @@ from .load_topics import preprocess_cs_topics, preprocess_en_topics
 from .results import write_trec_results, flatten_results_by_topic
 from .retrieval import RetrievalResult, RetrievalSystem
 from .scoring import BM25Parameters, PivotedNormalizationParameters, ScoringConfig
-from .text_preprocessing import PreprocessingPipeline, regex_word_tokenizer
+from .text_preprocessing import PreprocessingPipeline, regex_word_tokenizer, regex_tokenizer_with_connectors, casefold_tokens, normalize_numbers, casefold_and_normalize_numbers, english_casefold_and_stem, czech_casefold_and_stem, english_stopword_removal, czech_stopword_removal
 
 __all__ = [
     "BM25Parameters",
@@ -24,5 +24,15 @@ __all__ = [
     "preprocess_cs_topics",
     "preprocess_en_documents",
     "preprocess_en_topics",
+    "regex_word_tokenizer",
+    "regex_tokenizer_with_connectors",
     "write_trec_results",
+    "flatten_results_by_topic",
+    "casefold_tokens",
+    "normalize_numbers",
+    "casefold_and_normalize_numbers",
+    "english_casefold_and_stem",
+    "czech_casefold_and_stem",
+    "english_stopword_removal",
+    "czech_stopword_removal",
 ]

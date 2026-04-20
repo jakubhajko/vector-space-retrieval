@@ -185,7 +185,7 @@ class RetrievalSystem:
         - ``scoring.normalization`` is intentionally ignored here.
         - Query-side weights are used as multiplicative query term factors.
         """
-        from scoring import bm25_term_score  # local import to keep namespace tidy
+        from .scoring import bm25_term_score  # local import to keep namespace tidy
 
         query_term_weights = build_weighted_query_terms(
             query_tokens,

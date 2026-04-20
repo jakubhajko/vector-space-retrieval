@@ -1,246 +1,189 @@
 from __future__ import annotations
 
-"""Simple experiment entry point for the IR system.
-
-This file is meant to be the main place where you choose:
-- which collection split to run on
-- which predefined experiment configuration to use
-- where to save the output run file
-
-Available split choices
------------------------
-- "train_en"
-- "test_en"
-- "train_cs"
-- "test_cs"
-
-Available predefined runs
--------------------------
-- RUN_0_CONFIG:
-    Baseline run requested by the assignment.
-- RUN_1_CONFIG:
-    A stronger experimental run using only title-based queries as requested.
-
-Notes on configurable choices
------------------------------
-Query construction:
-- "title"
-- "title_desc"
-- "title_desc_narr"
-
-Term weighting:
-- "natural"
-- "logarithm"
-
-Document-frequency weighting:
-- "none"
-- "idf"
-- "probabilistic_idf"
-
-Normalization:
-- "none"
-- "cosine"
-- "pivoted"
-
-Similarity:
-- "cosine"
-- "bm25"
-
-Query expansion:
-- "none"
-- "thesaurus_based"
-"""
-
+import argparse
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Literal, Mapping, Sequence
+from typing import Mapping, Sequence, Any
 
-from vector_space_model import (
-    DATA_DIR,
-    RetrievalSystem,
-    ScoringConfig,
-    build_inverted_index,
-    flatten_results_by_topic,
-    preprocess_cs_documents,
-    preprocess_cs_topics,
-    preprocess_en_documents,
-    preprocess_en_topics,
-    regex_word_tokenizer,
-    write_trec_results,
+# Assuming these are your local module imports
+from vector_space_model.config import DATA_DIR
+from vector_space_model.load_documents import preprocess_cs_documents, preprocess_en_documents
+from vector_space_model.load_topics import preprocess_cs_topics, preprocess_en_topics
+from vector_space_model.text_preprocessing import (
+    regex_word_tokenizer, regex_tokenizer_with_connectors, 
+    casefold_tokens, normalize_numbers, casefold_and_normalize_numbers, 
+    english_casefold_and_stem, czech_casefold_and_stem, 
+    english_stopword_removal, czech_stopword_removal
 )
-
-CollectionSplit = Literal["train_en", "test_en", "train_cs", "test_cs"]
+from vector_space_model.index import build_inverted_index
+from vector_space_model.retrieval import RetrievalSystem
+from vector_space_model.scoring import ScoringConfig
+from vector_space_model.results import write_trec_results, flatten_results_by_topic
 
 
 @dataclass(frozen=True)
 class ExperimentConfig:
-    """Top-level run configuration.
-
-    The preprocessing callables are split for documents and topics so you can
-    easily experiment with them independently if needed.
-    """
-
-    run_id: str
+    """Top-level run configuration."""
     query_construction: str = "title"
 
-    # Document preprocessing
-    document_tokenizer_fn: object | None = None
-    document_equivalence_classing_fn: object | None = None
-    document_stopword_removal_fn: object | None = None
-
-    # Topic preprocessing
-    topic_tokenizer_fn: object | None = None
-    topic_equivalence_classing_fn: object | None = None
-    topic_stopword_removal_fn: object | None = None
+    # Preprocessing Callables
+    # Note: Using dicts for language-specific rules (e.g., {"en": func, "cs": func})
+    tokenizer_fn: Any = regex_word_tokenizer
+    equivalence_classing_fn: dict[str, Any] | None = None
+    stopword_removal_fn: dict[str, Any] | None = None
 
     # Retrieval/scoring
     scoring: ScoringConfig = field(default_factory=ScoringConfig)
-
-    # Optional thesaurus for query expansion experiments
     thesaurus: Mapping[str, Sequence[str]] | None = None
-
-    # Max retrieved documents per topic
     top_k: int = 1000
 
 
-@dataclass(frozen=True)
-class CollectionPaths:
-    """Resolved paths and metadata for one collection split."""
+# --- Predefined Runs ---
 
-    split: CollectionSplit
-    language: Literal["en", "cs"]
-    documents_lst_path: Path
-    documents_dir: Path
-    topics_xml_path: Path
+# =============================================================================
+# EXPERIMENT CONFIGURATION DOMAIN
+# =============================================================================
+# TEXT PREPROCESSING OPTIONS:
+# ----------------------------------------------------------------
+#  tokenizer_fn:             regex_word_tokenizer, regex_tokenizer_with_connectors 
+#  equivalence_classing_fn:  None, english_casefold_and_stem, czech_casefold_and_stem, 
+#                            casefold_and_normalize_numbers, casefold_tokens, normalize_numbers
+#  stopword_removal_fn:      None ,english_stopword_removal, czech_stopword_removal
+#
+# RETRIEVAL/SCORING OPTIONS:
+# ----------------------------------------------------------------
+#  query_construction:       "title", "title_desc", "title_desc_narr"
+#  tf_weighting:             "natural", "logarithm"
+#  df_weighting:             "none", "idf", "probabilistic_idf"
+#  normalization:            "none", "cosine", "pivoted"
+#  similarity:               "cosine", "bm25"
+#  query_expansion:          "none", "thesaurus_based"
+# =============================================================================
 
-
-def resolve_collection_paths(split: CollectionSplit) -> CollectionPaths:
-    """Resolve all required input paths for a selected collection split."""
-    if split == "train_en":
-        return CollectionPaths(
-            split=split,
-            language="en",
-            documents_lst_path=Path(DATA_DIR) / "documents_en.lst",
-            documents_dir=Path(DATA_DIR) / "documents_en",
-            topics_xml_path=Path(DATA_DIR) / "topics-train_en.xml",
-        )
-
-    if split == "test_en":
-        return CollectionPaths(
-            split=split,
-            language="en",
-            documents_lst_path=Path(DATA_DIR) / "documents_en.lst",
-            documents_dir=Path(DATA_DIR) / "documents_en",
-            topics_xml_path=Path(DATA_DIR) / "topics-test_en.xml",
-        )
-
-    if split == "train_cs":
-        return CollectionPaths(
-            split=split,
-            language="cs",
-            documents_lst_path=Path(DATA_DIR) / "documents_cs.lst",
-            documents_dir=Path(DATA_DIR) / "documents_cs",
-            topics_xml_path=Path(DATA_DIR) / "topics-train_cs.xml",
-        )
-
-    if split == "test_cs":
-        return CollectionPaths(
-            split=split,
-            language="cs",
-            documents_lst_path=Path(DATA_DIR) / "documents_cs.lst",
-            documents_dir=Path(DATA_DIR) / "documents_cs",
-            topics_xml_path=Path(DATA_DIR) / "topics-test_cs.xml",
-        )
-
-    raise ValueError(f"Unsupported collection split: {split}")
-
-
-def load_documents_for_split(
-    collection: CollectionPaths,
-    config: ExperimentConfig,
-) -> dict[str, object]:
-    """Load and preprocess documents for the selected language/split."""
-    if collection.language == "en":
-        return preprocess_en_documents(
-            lst_path=collection.documents_lst_path,
-            documents_dir=collection.documents_dir,
-            tokenizer_fn=(
-                config.document_tokenizer_fn
-                if config.document_tokenizer_fn is not None
-                else preprocess_en_documents.__defaults__[2]  # type: ignore[index]
-            ),
-            equivalence_classing_fn=config.document_equivalence_classing_fn,
-            stopword_removal_fn=config.document_stopword_removal_fn,
-        )
-
-    return preprocess_cs_documents(
-        lst_path=collection.documents_lst_path,
-        documents_dir=collection.documents_dir,
-        tokenizer_fn=(
-            config.document_tokenizer_fn
-            if config.document_tokenizer_fn is not None
-            else preprocess_cs_documents.__defaults__[2]  # type: ignore[index]
-        ),
-        equivalence_classing_fn=config.document_equivalence_classing_fn,
-        stopword_removal_fn=config.document_stopword_removal_fn,
+RUN_0_CONFIG = ExperimentConfig(
+    # Baseline run requested by the assignment
+    query_construction="title",
+    tokenizer_fn=regex_word_tokenizer,
+    equivalence_classing_fn=None,
+    stopword_removal_fn=None,
+    scoring=ScoringConfig(
+        tf_weighting="natural",
+        df_weighting="none",
+        normalization="cosine",
+        similarity="cosine",
+        query_expansion="none",
     )
+)
 
-
-def load_topics_for_split(
-    collection: CollectionPaths,
-    config: ExperimentConfig,
-) -> dict[str, object]:
-    """Load and preprocess topics for the selected language/split."""
-    if collection.language == "en":
-        return preprocess_en_topics(
-            xml_path=collection.topics_xml_path,
-            query_construction=config.query_construction,
-            tokenizer_fn=(
-                config.topic_tokenizer_fn
-                if config.topic_tokenizer_fn is not None
-                else preprocess_en_topics.__defaults__[1]  # type: ignore[index]
-            ),
-            equivalence_classing_fn=config.topic_equivalence_classing_fn,
-            stopword_removal_fn=config.topic_stopword_removal_fn,
-        )
-
-    return preprocess_cs_topics(
-        xml_path=collection.topics_xml_path,
-        query_construction=config.query_construction,
-        tokenizer_fn=(
-            config.topic_tokenizer_fn
-            if config.topic_tokenizer_fn is not None
-            else preprocess_cs_topics.__defaults__[1]  # type: ignore[index]
-        ),
-        equivalence_classing_fn=config.topic_equivalence_classing_fn,
-        stopword_removal_fn=config.topic_stopword_removal_fn,
+RUN_1_CONFIG = ExperimentConfig(
+    # Stronger title-only run
+    query_construction="title_desc",
+    tokenizer_fn=regex_tokenizer_with_connectors,
+    equivalence_classing_fn={
+        "en": english_casefold_and_stem,
+        "cs": czech_casefold_and_stem
+    },
+    stopword_removal_fn={
+        "en": english_stopword_removal,
+        "cs": czech_stopword_removal
+    },
+    scoring=ScoringConfig(
+        tf_weighting="logarithm",
+        df_weighting="idf",
+        normalization="cosine",
+        similarity="bm25",
+        query_expansion="none",
     )
+)
+
+# Easily extendable mapping of run IDs to configurations
+CONFIGS = {
+    "run-0": RUN_0_CONFIG,
+    "run-1": RUN_1_CONFIG,
+    # "run-2": RUN_2_CONFIG,  # Add your unconstrained run here later!
+}
 
 
-def build_output_filename(run_id: str, split: CollectionSplit) -> str:
-    """Build output filename following the current naming style."""
-    return f"{run_id}_{split}.res"
+# =============================================================================
+# CORE EXECUTION LOGIC
+# =============================================================================
+
+def print_active_configuration(run_id: str, config: ExperimentConfig):
+    """Prints the configuration clearly for easy inclusion in your report."""
+    print(f"\n{'='*55}")
+    print(f"EXECUTING EXPERIMENT: {run_id}")
+    print(f"{'='*50}")
+    print(f"Query Construction:   {config.query_construction}")
+    print(f"Tokenizer:            {config.tokenizer_fn.__name__ if config.tokenizer_fn else 'None'}")
+    print(f"Equivalence Classing: {config.equivalence_classing_fn[run_id[-2:]].__name__ if config.equivalence_classing_fn else 'None'}")
+    print(f"Stopword Removal:     {config.stopword_removal_fn[run_id[-2:]].__name__ if config.stopword_removal_fn else 'None'}")
+    print(f"TF Weighting:         {config.scoring.tf_weighting}")
+    print(f"DF Weighting:         {config.scoring.df_weighting}")
+    print(f"Normalization:        {config.scoring.normalization}")
+    print(f"Similarity:           {config.scoring.similarity}")
+    print(f"Query Expansion:      {config.scoring.query_expansion}")
+    print(f"Top K Docs:           {config.top_k}")
+    print(f"{'='*55}\n")
 
 
-def execute_run(
-    *,
-    split: CollectionSplit,
-    config: ExperimentConfig,
-    output_dir: str | Path = ".",
-) -> Path:
+def execute_run(topics_path: Path, documents_path: Path, run_id: str, output_path: Path):
     """Run one full experiment and write the TREC result file."""
-    collection = resolve_collection_paths(split)
+    
+    # 1. Determine base config and language
+    # Maps e.g. "run-0_cs" -> "run-0" base config
+    base_run_id = next((k for k in CONFIGS.keys() if k in run_id), "run-0")
+    config = CONFIGS[base_run_id]
+    
+    lang = "cs" if "_cs" in str(topics_path) else "en"
+    print_active_configuration(run_id, config)
 
-    # 1) Load documents
-    documents = load_documents_for_split(collection, config)
+    # Resolve language-specific preprocessing functions
+    eq_classing = config.equivalence_classing_fn[lang] if config.equivalence_classing_fn else None
+    stopwords = config.stopword_removal_fn[lang] if config.stopword_removal_fn else None
 
-    # 2) Build index
+    # Derive documents directory from the .lst file (e.g. documents_en.lst -> documents_en dir)
+    documents_dir = documents_path.parent / documents_path.stem
+
+    # 2. Load Documents
+    print(f"Loading documents from {documents_path}...")
+    if lang == "en":
+        documents = preprocess_en_documents(
+            lst_path=documents_path, documents_dir=documents_dir,
+            tokenizer_fn=config.tokenizer_fn,
+            equivalence_classing_fn=eq_classing,
+            stopword_removal_fn=stopwords
+        )
+    else:
+        documents = preprocess_cs_documents(
+            lst_path=documents_path, documents_dir=documents_dir,
+            tokenizer_fn=config.tokenizer_fn,
+            equivalence_classing_fn=eq_classing,
+            stopword_removal_fn=stopwords
+        )
+
+    # 3. Build Index
+    print("Building inverted index...")
     index = build_inverted_index(documents.values())
 
-    # 3) Load topics
-    topics = load_topics_for_split(collection, config)
+    # 4. Load Topics
+    print(f"Loading topics from {topics_path}...")
+    if lang == "en":
+        topics = preprocess_en_topics(
+            xml_path=topics_path, query_construction=config.query_construction,
+            tokenizer_fn=config.tokenizer_fn,
+            equivalence_classing_fn=eq_classing,
+            stopword_removal_fn=stopwords
+        )
+    else:
+        topics = preprocess_cs_topics(
+            xml_path=topics_path, query_construction=config.query_construction,
+            tokenizer_fn=config.tokenizer_fn,
+            equivalence_classing_fn=eq_classing,
+            stopword_removal_fn=stopwords
+        )
 
-    # 4) Retrieve
+    # 5. Retrieve
+    print("Retrieving documents...")
     retrieval_system = RetrievalSystem(index)
     results_by_topic = retrieval_system.retrieve_many(
         {topic_id: topic.query_tokens for topic_id, topic in topics.items()},
@@ -249,101 +192,57 @@ def execute_run(
         top_k=config.top_k,
     )
 
-    # 5) Write results
-    output_path = Path(output_dir) / build_output_filename(config.run_id, split)
+    # 6. Write Results
+    print(f"Writing results to {output_path}...")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     write_trec_results(
         output_path,
         flatten_results_by_topic(results_by_topic),
-        run_id=config.run_id,
+        run_id=run_id,
     )
-
-    return output_path
-
-
-# ---------------------------------------------------------------------------
-# Predefined experiment configurations
-# ---------------------------------------------------------------------------
-
-# Baseline run requested by the assignment:
-# - token delimiters: any sequence of whitespace and punctuation marks
-# - term equivalence classes: none
-# - removing stopwords: no
-# - query construction: title only
-# - tf weighting: natural
-# - df weighting: none
-# - normalization: cosine
-# - similarity: cosine
-# - pseudo-relevance feedback: none
-# - query expansion: none
-RUN_0_CONFIG = ExperimentConfig(
-    run_id="run-0",
-    query_construction="title",
-    document_tokenizer_fn=regex_word_tokenizer,
-    document_equivalence_classing_fn=None,
-    document_stopword_removal_fn=None,
-    topic_tokenizer_fn=regex_word_tokenizer,
-    topic_equivalence_classing_fn=None,
-    topic_stopword_removal_fn=None,
-    scoring=ScoringConfig(
-        tf_weighting="natural",
-        df_weighting="none",
-        normalization="cosine",
-        similarity="cosine",
-        query_expansion="none",
-    ),
-    thesaurus=None,
-    top_k=1000,
-)
-
-# Stronger title-only run:
-# Chosen to be a sensible general improvement from the available options.
-#
-# Rationale:
-# - keep title-only queries as required
-# - use the default language-specific preprocessing from the loaders
-#   (English: default tokenizer + default equivalence classing + stopword removal,
-#    Czech:   default tokenizer + default equivalence classing + stopword removal)
-# - use log tf + idf + cosine + cosine similarity
-#
-# This is a conservative "best overall" choice for a vector-space baseline/experiment.
-RUN_1_CONFIG = ExperimentConfig(
-    run_id="run-1",
-    query_construction="title",
-    # None here means: use the loader defaults for the given language.
-    document_tokenizer_fn=None,
-    document_equivalence_classing_fn=None,
-    document_stopword_removal_fn=None,
-    topic_tokenizer_fn=None,
-    topic_equivalence_classing_fn=None,
-    topic_stopword_removal_fn=None,
-    scoring=ScoringConfig(
-        tf_weighting="logarithm",
-        df_weighting="idf",
-        normalization="cosine",
-        similarity="cosine",
-        query_expansion="none",
-    ),
-    thesaurus=None,
-    top_k=1000,
-)
-
-
-# ---------------------------------------------------------------------------
-# Main selection
-# ---------------------------------------------------------------------------
-
-# Change only these two lines for most experiments:
-SELECTED_SPLIT: CollectionSplit = "test_cs"
-SELECTED_CONFIG: ExperimentConfig = RUN_0_CONFIG
-
-# Optional output directory. "." means current working directory.
-OUTPUT_DIR = "."
+    print("Done!")
 
 
 if __name__ == "__main__":
-    output_path = execute_run(
-        split=SELECTED_SPLIT,
-        config=SELECTED_CONFIG,
-        output_dir=OUTPUT_DIR,
+    parser = argparse.ArgumentParser(description="NPFL103 Information Retrieval System")
+    parser.add_argument("-q", "--topics", type=Path, required=True, help="Topics XML file (e.g., topics-train_en.xml)")
+    parser.add_argument("-d", "--documents", type=Path, required=True, help="Documents list file (e.g., documents_en.lst)")
+    parser.add_argument("-r", "--run_id", type=str, required=True, help="Experiment run ID (e.g., run-0_cs, run-1_en)")
+    parser.add_argument("-o", "--output", type=Path, required=True, help="Output results file (e.g., run-0_train_cs.res)")
+    
+    args = parser.parse_args()
+    
+    execute_run(
+        topics_path=args.topics,
+        documents_path=args.documents,
+        run_id=args.run_id,
+        output_path=args.output
     )
-    print(f"Saved results to: {output_path}")
+
+    # Example usage:
+
+    # Run 0
+    # python run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-0_train_en -o results/run-0_train_en.res
+    # python run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-0_train_cs -o results/run-0_train_cs.res
+    # python run.py -q data/topics-test_en.xml -d data/documents_en.lst -r run-0_test_en -o results/run-0_test_en.res
+    # python run.py -q data/topics-test_cs.xml -d data/documents_cs.lst -r run-0_test_cs -o results/run-0_test_cs.res
+
+    # Run 1
+    # python run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_en -o results/run-1_train_en.res
+    # python run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_cs -o results/run-1_train_cs.res
+    # python run.py -q data/topics-test_en.xml -d data/documents_en.lst -r run-1_test_en -o results/run-1_test_en.res
+    # python run.py -q data/topics-test_cs.xml -d data/documents_cs.lst -r run-1_test_cs -o results/run-1_test_cs.res
+    
+
+    # For uv users:
+    # Run 0 
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-0_train_en -o results/run-0_train_en.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-0_train_cs -o results/run-0_train_cs.res
+    # uv run run.py -q data/topics-test_en.xml -d data/documents_en.lst -r run-0_test_en -o results/run-0_test_en.res
+    # uv run run.py -q data/topics-test_cs.xml -d data/documents_cs.lst -r run-0_test_cs -o results/run-0_test_cs.res
+
+    # Run 1
+    # uv run run.py -q data/topics-train_en.xml -d data/documents_en.lst -r run-1_train_en -o results/run-1_train_en.res
+    # uv run run.py -q data/topics-train_cs.xml -d data/documents_cs.lst -r run-1_train_cs -o results/run-1_train_cs.res
+    # uv run run.py -q data/topics-test_en.xml -d data/documents_en.lst -r run-1_test_en -o results/run-1_test_en.res
+    # uv run run.py -q data/topics-test_cs.xml -d data/documents_cs.lst -r run-1_test_cs -o results/run-1_test_cs.res
