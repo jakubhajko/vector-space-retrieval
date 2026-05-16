@@ -1,0 +1,453 @@
+
+RUN 1 EN
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-1_standard_train_en
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             BM25F
+Using PRF:          False
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-1_standard_train_en
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	782
+num_rel_ret           	all	642
+map                   	all	0.3681
+gm_map                	all	0.2827
+Rprec                 	all	0.3579
+bpref                 	all	0.3372
+recip_rank            	all	0.6793
+iprec_at_recall_0.00  	all	0.7321
+iprec_at_recall_0.10  	all	0.5888
+iprec_at_recall_0.20  	all	0.5404
+iprec_at_recall_0.30  	all	0.4808
+iprec_at_recall_0.40  	all	0.4557
+iprec_at_recall_0.50  	all	0.3966
+iprec_at_recall_0.60  	all	0.3205
+iprec_at_recall_0.70  	all	0.2792
+iprec_at_recall_0.80  	all	0.2497
+iprec_at_recall_0.90  	all	0.1899
+iprec_at_recall_1.00  	all	0.1358
+P_5                   	all	0.5120
+P_10                  	all	0.3960
+P_15                  	all	0.3867
+P_20                  	all	0.3660
+P_30                  	all	0.3213
+P_100                 	all	0.1576
+P_200                 	all	0.0956
+P_500                 	all	0.0458
+P_1000                	all	0.0257
+
+
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-1_prf_train_en
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             BM25F
+Using PRF:          True
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-1_prf_train_en
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	782
+num_rel_ret           	all	639
+map                   	all	0.3512
+gm_map                	all	0.2468
+Rprec                 	all	0.3658
+bpref                 	all	0.3399
+recip_rank            	all	0.6804
+iprec_at_recall_0.00  	all	0.7520
+iprec_at_recall_0.10  	all	0.5712
+iprec_at_recall_0.20  	all	0.5166
+iprec_at_recall_0.30  	all	0.4759
+iprec_at_recall_0.40  	all	0.4423
+iprec_at_recall_0.50  	all	0.4058
+iprec_at_recall_0.60  	all	0.3245
+iprec_at_recall_0.70  	all	0.2340
+iprec_at_recall_0.80  	all	0.1960
+iprec_at_recall_0.90  	all	0.1487
+iprec_at_recall_1.00  	all	0.1046
+P_5                   	all	0.5120
+P_10                  	all	0.4240
+P_15                  	all	0.3840
+P_20                  	all	0.3560
+P_30                  	all	0.3000
+P_100                 	all	0.1548
+P_200                 	all	0.0940
+P_500                 	all	0.0449
+P_1000                	all	0.0256
+
+
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-1_pl2_train_en
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             PL2
+Using PRF:          True
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-1_pl2_train_en
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	782
+num_rel_ret           	all	657
+map                   	all	0.3083
+gm_map                	all	0.2081
+Rprec                 	all	0.3009
+bpref                 	all	0.2809
+recip_rank            	all	0.6467
+iprec_at_recall_0.00  	all	0.6938
+iprec_at_recall_0.10  	all	0.5188
+iprec_at_recall_0.20  	all	0.4605
+iprec_at_recall_0.30  	all	0.3943
+iprec_at_recall_0.40  	all	0.3607
+iprec_at_recall_0.50  	all	0.3251
+iprec_at_recall_0.60  	all	0.2622
+iprec_at_recall_0.70  	all	0.2261
+iprec_at_recall_0.80  	all	0.1755
+iprec_at_recall_0.90  	all	0.1348
+iprec_at_recall_1.00  	all	0.0994
+P_5                   	all	0.4160
+P_10                  	all	0.3560
+P_15                  	all	0.3280
+P_20                  	all	0.3120
+P_30                  	all	0.2760
+P_100                 	all	0.1524
+P_200                 	all	0.0968
+P_500                 	all	0.0472
+P_1000                	all	0.0263
+
+
+
+RUN 1 CS
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-1_standard_train_cs
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             BM25F
+Using PRF:          False
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-1_standard_train_cs
+num_q                 	all	25
+num_ret               	all	20084
+num_rel               	all	382
+num_rel_ret           	all	232
+map                   	all	0.2353
+gm_map                	all	0.0944
+Rprec                 	all	0.2637
+bpref                 	all	0.2225
+recip_rank            	all	0.5801
+iprec_at_recall_0.00  	all	0.6008
+iprec_at_recall_0.10  	all	0.4964
+iprec_at_recall_0.20  	all	0.3837
+iprec_at_recall_0.30  	all	0.3199
+iprec_at_recall_0.40  	all	0.2602
+iprec_at_recall_0.50  	all	0.2379
+iprec_at_recall_0.60  	all	0.1660
+iprec_at_recall_0.70  	all	0.1362
+iprec_at_recall_0.80  	all	0.0845
+iprec_at_recall_0.90  	all	0.0390
+iprec_at_recall_1.00  	all	0.0297
+P_5                   	all	0.2960
+P_10                  	all	0.2440
+P_15                  	all	0.2107
+P_20                  	all	0.1840
+P_30                  	all	0.1360
+P_100                 	all	0.0580
+P_200                 	all	0.0348
+P_500                 	all	0.0169
+P_1000                	all	0.0093
+
+
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-1_prf_train_cs
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             BM25F
+Using PRF:          True
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-1_prf_train_cs
+num_q                 	all	25
+num_ret               	all	22448
+num_rel               	all	382
+num_rel_ret           	all	247
+map                   	all	0.2487
+gm_map                	all	0.0935
+Rprec                 	all	0.2500
+bpref                 	all	0.2373
+recip_rank            	all	0.5008
+iprec_at_recall_0.00  	all	0.5145
+iprec_at_recall_0.10  	all	0.4633
+iprec_at_recall_0.20  	all	0.3681
+iprec_at_recall_0.30  	all	0.3044
+iprec_at_recall_0.40  	all	0.2711
+iprec_at_recall_0.50  	all	0.2604
+iprec_at_recall_0.60  	all	0.2223
+iprec_at_recall_0.70  	all	0.1751
+iprec_at_recall_0.80  	all	0.1249
+iprec_at_recall_0.90  	all	0.0915
+iprec_at_recall_1.00  	all	0.0597
+P_5                   	all	0.3200
+P_10                  	all	0.2720
+P_15                  	all	0.2187
+P_20                  	all	0.1900
+P_30                  	all	0.1467
+P_100                 	all	0.0644
+P_200                 	all	0.0376
+P_500                 	all	0.0183
+P_1000                	all	0.0099
+
+
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-1_pl2_train_cs
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             PL2
+Using PRF:          True
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-1_pl2_train_cs
+num_q                 	all	25
+num_ret               	all	22793
+num_rel               	all	382
+num_rel_ret           	all	251
+map                   	all	0.2717
+gm_map                	all	0.1283
+Rprec                 	all	0.2924
+bpref                 	all	0.2708
+recip_rank            	all	0.5967
+iprec_at_recall_0.00  	all	0.6341
+iprec_at_recall_0.10  	all	0.5732
+iprec_at_recall_0.20  	all	0.4432
+iprec_at_recall_0.30  	all	0.3370
+iprec_at_recall_0.40  	all	0.2679
+iprec_at_recall_0.50  	all	0.2586
+iprec_at_recall_0.60  	all	0.2200
+iprec_at_recall_0.70  	all	0.1726
+iprec_at_recall_0.80  	all	0.1270
+iprec_at_recall_0.90  	all	0.0948
+iprec_at_recall_1.00  	all	0.0615
+P_5                   	all	0.3760
+P_10                  	all	0.2840
+P_15                  	all	0.2400
+P_20                  	all	0.2000
+P_30                  	all	0.1533
+P_100                 	all	0.0612
+P_200                 	all	0.0368
+P_500                 	all	0.0186
+P_1000                	all	0.0100
+
+
+
+RUN 2 EN
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-2_experiment1_train_en
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title_desc
+Scorer:             BM25F
+Using PRF:          True
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-2_experiment1_train_en
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	782
+num_rel_ret           	all	647
+map                   	all	0.3468
+gm_map                	all	0.2211
+Rprec                 	all	0.3500
+bpref                 	all	0.3521
+recip_rank            	all	0.6571
+iprec_at_recall_0.00  	all	0.7167
+iprec_at_recall_0.10  	all	0.5706
+iprec_at_recall_0.20  	all	0.5355
+iprec_at_recall_0.30  	all	0.5072
+iprec_at_recall_0.40  	all	0.3927
+iprec_at_recall_0.50  	all	0.3527
+iprec_at_recall_0.60  	all	0.2686
+iprec_at_recall_0.70  	all	0.2476
+iprec_at_recall_0.80  	all	0.1930
+iprec_at_recall_0.90  	all	0.1466
+iprec_at_recall_1.00  	all	0.1076
+P_5                   	all	0.4560
+P_10                  	all	0.3800
+P_15                  	all	0.3573
+P_20                  	all	0.3180
+P_30                  	all	0.2867
+P_100                 	all	0.1540
+P_200                 	all	0.0936
+P_500                 	all	0.0467
+P_1000                	all	0.0259
+
+
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-2_experiment2_train_en
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             BM25F
+Using PRF:          False
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-2_experiment2_train_en
+num_q                 	all	25
+num_ret               	all	25000
+num_rel               	all	782
+num_rel_ret           	all	642
+map                   	all	0.3681
+gm_map                	all	0.2827
+Rprec                 	all	0.3579
+bpref                 	all	0.3372
+recip_rank            	all	0.6793
+iprec_at_recall_0.00  	all	0.7321
+iprec_at_recall_0.10  	all	0.5888
+iprec_at_recall_0.20  	all	0.5404
+iprec_at_recall_0.30  	all	0.4808
+iprec_at_recall_0.40  	all	0.4557
+iprec_at_recall_0.50  	all	0.3966
+iprec_at_recall_0.60  	all	0.3205
+iprec_at_recall_0.70  	all	0.2792
+iprec_at_recall_0.80  	all	0.2497
+iprec_at_recall_0.90  	all	0.1899
+iprec_at_recall_1.00  	all	0.1358
+P_5                   	all	0.5120
+P_10                  	all	0.3960
+P_15                  	all	0.3867
+P_20                  	all	0.3660
+P_30                  	all	0.3213
+P_100                 	all	0.1576
+P_200                 	all	0.0956
+P_500                 	all	0.0458
+P_1000                	all	0.0257
+
+RUN 2 CS
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-2_experiment1_train_cs
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title_desc
+Scorer:             PL2
+Using PRF:          True
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-2_experiment1_train_cs
+num_q                 	all	25
+num_ret               	all	24723
+num_rel               	all	382
+num_rel_ret           	all	291
+map                   	all	0.2389
+gm_map                	all	0.1121
+Rprec                 	all	0.2644
+bpref                 	all	0.2343
+recip_rank            	all	0.5304
+iprec_at_recall_0.00  	all	0.5619
+iprec_at_recall_0.10  	all	0.4920
+iprec_at_recall_0.20  	all	0.3878
+iprec_at_recall_0.30  	all	0.3159
+iprec_at_recall_0.40  	all	0.2645
+iprec_at_recall_0.50  	all	0.2139
+iprec_at_recall_0.60  	all	0.1907
+iprec_at_recall_0.70  	all	0.1395
+iprec_at_recall_0.80  	all	0.1166
+iprec_at_recall_0.90  	all	0.0744
+iprec_at_recall_1.00  	all	0.0300
+P_5                   	all	0.3680
+P_10                  	all	0.3080
+P_15                  	all	0.2533
+P_20                  	all	0.2140
+P_30                  	all	0.1747
+P_100                 	all	0.0784
+P_200                 	all	0.0464
+P_500                 	all	0.0217
+P_1000                	all	0.0116
+
+
+=====================================================================
+EXECUTING WHOOSH EXPERIMENT: run-2_experiment2_train_cs
+=====================================================================
+WHOOSH CONFIGURATION:
+
+Text Processing:    Tokenize -> Lowercase -> Remove Stopwords -> Stem
+Query Construction: title
+Scorer:             PL2
+Using PRF:          True
+Top K Docs:         1000
+=====================================================================
+
+runid                 	all	run-2_experiment2_train_cs
+num_q                 	all	25
+num_ret               	all	22793
+num_rel               	all	382
+num_rel_ret           	all	251
+map                   	all	0.2717
+gm_map                	all	0.1283
+Rprec                 	all	0.2924
+bpref                 	all	0.2708
+recip_rank            	all	0.5967
+iprec_at_recall_0.00  	all	0.6341
+iprec_at_recall_0.10  	all	0.5732
+iprec_at_recall_0.20  	all	0.4432
+iprec_at_recall_0.30  	all	0.3370
+iprec_at_recall_0.40  	all	0.2679
+iprec_at_recall_0.50  	all	0.2586
+iprec_at_recall_0.60  	all	0.2200
+iprec_at_recall_0.70  	all	0.1726
+iprec_at_recall_0.80  	all	0.1270
+iprec_at_recall_0.90  	all	0.0948
+iprec_at_recall_1.00  	all	0.0615
+P_5                   	all	0.3760
+P_10                  	all	0.2840
+P_15                  	all	0.2400
+P_20                  	all	0.2000
+P_30                  	all	0.1533
+P_100                 	all	0.0612
+P_200                 	all	0.0368
+P_500                 	all	0.0186
+P_1000                	all	0.0100
